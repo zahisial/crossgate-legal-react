@@ -1,13 +1,200 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== BASE STYLES ========== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply font-body text-black bg-cream;
+  }
+  /* Custom selection color */
+  ::selection {
+    @apply bg-gold/30 text-black;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ========== COMPONENT CLASSES (reusable) ========== */
+@layer components {
+  .container-custom {
+    @apply max-w-6xl mx-auto px-6;
+  }
+  .btn-primary {
+    @apply bg-gradient-to-r from-gold-dark to-gold text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:translate-y-[-2px] transition-all duration-300 inline-flex items-center gap-2;
+  }
+  .btn-outline {
+    @apply border border-gold-darker/40 text-gold-light px-6 py-3 rounded-lg font-semibold hover:bg-gold-darker/10 transition-all duration-300 inline-flex items-center gap-2;
+  }
+  .btn-dark {
+    @apply bg-black/80 text-gold-light border border-gold-darker/20 px-6 py-3 rounded-lg font-semibold hover:bg-black/60 transition-all duration-300 inline-flex items-center gap-2;
+  }
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-semibold text-black;
+  }
+  .section-title em {
+    @apply text-gold not-italic;
+  }
+  .section-label {
+    @apply text-xs font-semibold tracking-wider uppercase text-gold-dark mb-4;
+  }
+  .section-desc {
+    @apply text-gray-600 max-w-2xl mx-auto text-base md:text-lg;
+  }
+  .service-card {
+    @apply bg-white border border-gray-100 rounded-2xl p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+  .service-icon {
+    @apply w-12 h-12 rounded-xl bg-gradient-to-br from-gold-dark/10 to-gold/5 flex items-center justify-center text-2xl mb-5;
+  }
+}
+
+/* ========== UTILITIES (custom) ========== */
+@layer utilities {
+  /* Logo mask (the decorative polygon) */
+  .mask-logo {
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='20,30 50,10 65,25 45,40' fill='black'/%3E%3Cpolygon points='45,40 65,25 80,35 60,50' fill='black'/%3E%3Cpolygon points='60,50 75,45 85,55 70,60' fill='black'/%3E%3Cpolygon points='55,55 65,60 60,70 50,65' fill='black'/%3E%3Cpolygon points='45,58 55,55 50,68 42,65' fill='black'/%3E%3Cpolygon points='38,55 45,58 40,68 33,62' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='20,30 50,10 65,25 45,40' fill='black'/%3E%3Cpolygon points='45,40 65,25 80,35 60,50' fill='black'/%3E%3Cpolygon points='60,50 75,45 85,55 70,60' fill='black'/%3E%3Cpolygon points='55,55 65,60 60,70 50,65' fill='black'/%3E%3Cpolygon points='45,58 55,55 50,68 42,65' fill='black'/%3E%3Cpolygon points='38,55 45,58 40,68 33,62' fill='black'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+
+  /* Animation: fade in */
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Animation: float bounce (used in hero) */
+  .animate-float-bounce {
+    animation: floatBounce 3s ease-in-out infinite;
+  }
+  @keyframes floatBounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* Radial gradient background (used in hero and CTA) */
+  .bg-gradient-radial {
+    background-image: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-to));
+  }
+}
+
+/* ========== ADDITIONAL OVERRIDES / FALLBACKS ========== */
+/* Ensure dark background sections use correct text color */
+.dark-section {
+  @apply bg-black text-white;
+}
+.dark-section .section-title {
+  @apply text-white;
+}
+.dark-section .section-desc {
+  @apply text-white/60;
+}
+.dark-section .section-label {
+  @apply text-gold-light;
+}
+
+/* Process step styling (used in Services page) */
+.process-step {
+  @apply text-center;
+}
+.process-step .process-number {
+  @apply w-16 h-16 mx-auto rounded-full bg-gradient-to-br from-gold-dark to-gold text-white flex items-center justify-center font-display text-xl font-bold mb-4 shadow-md;
+}
+
+/* Industry card (used in Industries page) */
+.industry-card {
+  @apply bg-white/5 border border-gold-darker/20 rounded-xl p-6 text-center transition-all hover:bg-gold-darker/10 hover:-translate-y-1;
+}
+.industry-card .industry-icon {
+  @apply text-3xl mb-3;
+}
+.industry-card h3 {
+  @apply font-display text-lg font-semibold text-white mb-1;
+}
+.industry-card p {
+  @apply text-white/50 text-xs leading-relaxed;
+}
+
+/* FAQ item styling */
+.faq-item {
+  @apply border-b border-gray-200;
+}
+.faq-question {
+  @apply w-full text-left py-5 flex justify-between items-center font-display text-lg font-semibold text-gray-900 hover:text-gold-dark transition;
+}
+.faq-question::after {
+  content: '+';
+  @apply text-gold-dark text-2xl;
+}
+.faq-item.open .faq-question::after {
+  content: '−';
+}
+.faq-answer {
+  @apply overflow-hidden transition-all duration-300 max-h-0;
+}
+.faq-item.open .faq-answer {
+  @apply max-h-96 pb-5;
+}
+.faq-answer-inner {
+  @apply text-gray-500 text-sm leading-relaxed;
+}
+
+/* Contact form styling */
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gold/20 focus:border-gold outline-none transition;
+}
+.contact-item {
+  @apply flex gap-4;
+}
+.contact-icon {
+  @apply w-12 h-12 rounded-xl bg-gradient-to-br from-gold-dark/10 to-gold/5 flex items-center justify-center text-xl;
+}
+
+/* Map embed */
+.map-embed {
+  @apply h-64 bg-gray-200 rounded-xl flex items-center justify-center border border-gold-darker/20;
+}
+
+/* Team card */
+.team-card {
+  @apply text-center;
+}
+.team-avatar {
+  @apply w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center text-white text-2xl font-display font-bold mb-4;
+}
+
+/* Testimonial card */
+.testimonial-card {
+  @apply bg-white rounded-2xl p-6 shadow-sm;
+}
+.testimonial-quote {
+  @apply text-4xl text-gold-light mb-2;
+}
+.testimonial-author {
+  @apply flex items-center gap-3 mt-4;
+}
+.testimonial-avatar {
+  @apply w-10 h-10 rounded-full bg-gradient-to-br from-gold to-gold-light flex items-center justify-center text-white font-bold;
+}
+.testimonial-name {
+  @apply font-semibold text-sm;
+}
+.testimonial-role {
+  @apply text-xs text-gray-400;
 }
